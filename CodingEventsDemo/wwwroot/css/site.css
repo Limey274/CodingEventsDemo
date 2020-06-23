@@ -60,6 +60,8 @@ html {
 
 body {
   /* Margin bottom by footer height */
+  background-color: aquamarine;
+  color: darkorange;
   margin-bottom: 60px;
 }
 .footer {
