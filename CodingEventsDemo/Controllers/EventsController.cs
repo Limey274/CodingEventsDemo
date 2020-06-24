@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CodingEventsDemo.Models;
 using Microsoft.AspNetCore.Mvc;
+using CodingEventsDemo.Data;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,13 +13,11 @@ namespace coding_events_practice.Controllers
     public class EventsController : Controller
     {
         // GET: /<controller>/
-        private static Dictionary<string, string> Events = new Dictionary<string, string>();
+        
         public IActionResult Index()
         {
            
-         
-
-            ViewBag.events = Events;
+            ViewBag.events = EventData.GetAll();
 
             return View();
         }
@@ -29,13 +29,47 @@ namespace coding_events_practice.Controllers
         }
 
         [HttpPost("/events/add")]
-        public IActionResult NewEvent(string name, string discription)
+        public IActionResult NewEvent(Event newEvent)
         {
-            Events.Add(name, discription);
+            EventData.Add(newEvent);
 
             return Redirect("/events");
         
         }
+
+        public IActionResult Delete()
+        {
+            ViewBag.events = EventData.GetAll();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult Delete(int[] eventIds)
+        {
+            foreach (var eventId in eventIds)
+            {
+                EventData.Remove(eventId);
+            }
+            return Redirect("/Events");
+
+        }
+
+        [Route("/Events/Edit/{eventId}")]
+        public IActionResult Edit(int eventId)
+        {
+            ViewBag.eventToEdit = EventData.GetByID(eventId);
+            return View();
+        }
+
+        [HttpPost("/Events/Edit")]
+        public IActionResult SubmitEditEventForm(int eventId, string name, string description)
+        {
+            Event edit = EventData.GetByID(eventId);
+            edit.Name = name;
+            edit.Description = description;
+            return Redirect("/Events");
+        }
+
+
 
 
 
