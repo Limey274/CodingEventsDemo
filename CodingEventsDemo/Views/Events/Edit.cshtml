@@ -14,6 +14,10 @@
             <input type="text" name="description" value="@ViewBag.eventToEdit.Description" />
         </div>
 
+        <div class="form-group">
+            <label for="Description ">Contact Email</label>
+            <input type="text" name="ContactEmail" value="@ViewBag.eventToEdit.ContactEmail" />
+        </div>
 
         <input type="submit" value="Edit Selected" />
         <input type="hidden" value="@ViewBag.eventToEdit.Id" name="eventId" />
